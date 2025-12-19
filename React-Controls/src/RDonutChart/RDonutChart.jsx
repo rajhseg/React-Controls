@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import './RDonutChart.css';
+import propTypes from "prop-types";
 
 export class RDonutChartItem {
   constructor(
@@ -14,7 +15,7 @@ export class RDonutChartItem {
   }
 }
 
-export class RRenderDonutChartItem extends RDonutChartItem {
+class RRenderDonutChartItem extends RDonutChartItem {
    
    Percentage = 0;
 
@@ -49,7 +50,7 @@ export function RDonutChart({
 }){
 
     const [IsRendered, setIsRendered] = useState(false);
-    const [items, setItems] = useState([]);
+    const [RenderItems, setRenderItems] = useState([]);
 
     let _lineWidth = 0;
     
@@ -66,27 +67,31 @@ export function RDonutChart({
 
     useEffect(()=>{
         
-        setItems((prevState) => [...prevState, ...[]]);
-
-        let _items = [];
+        setRenderItems((prevState) => []);
+        let _itms = [];
 
         if (ChartItems) {
             for (let index = 0; index < ChartItems.length; index++) {
                 const element = ChartItems[index];
                 let itm = new RRenderDonutChartItem(element.Value, element.Title, element.BackgroundColor, element.ForeColor);
-                _items.push(itm);
+               _itms.push(itm);
             }
+
+            setRenderItems((prevState)=> [...prevState, ..._itms]);
             
-            setItems((prevState)=> [...prevState, ..._items]);
-            
-            context = progressCanvas.current.getContext('2d');
-            RenderChart();
-        }
+         }
 
     }, [ChartItems]);
 
+    useEffect(()=>{
+
+        context = progressCanvas.current.getContext('2d');
+        RenderChart();   
+
+    }, [RenderItems])
+
     const Items = () => {
-        return items.map(x => x.ConverToItem());
+        return RenderItems.map(x => x.ConverToItem());
     }
 
     const GetXYForText = (x, y, length, angle) => {
@@ -109,7 +114,7 @@ export function RDonutChart({
 
         setIsRendered(false);
 
-        if (progressCanvas && context && items.length > 0) {
+        if (progressCanvas && context && RenderItems.length > 0) {
 
             context.clearRect(0, 0, progressCanvas.current.width, progressCanvas.current.height);
             
@@ -117,7 +122,7 @@ export function RDonutChart({
             let y = ChartWidth / 2;
             let radiusLength = (ChartWidth / 3) + (LineWidth() / 2);
 
-            let totalValues = items.map(x => x.Value);
+            let totalValues = RenderItems.map(x => x.Value);
             let TotalCount = 0;
 
             for (let index = 0; index < totalValues.length; index++) {
@@ -128,8 +133,8 @@ export function RDonutChart({
             let start = 0 * Math.PI / 180;
             let previousAngle = start;
 
-            for (let index = 0; index < items.length; index++) {
-                const element = items[index];
+            for (let index = 0; index < RenderItems.length; index++) {
+                const element = RenderItems[index];
 
                 let percentage = (element.Value * 100) / TotalCount;
                 let end1 = (percentage / 100) * 359.98 * (Math.PI / 180);
@@ -195,22 +200,22 @@ export function RDonutChart({
     return (
         <>
         <div className="host">
-        <div id={Id} style={{'position': 'relative', 'width': ChartWidth+'px', 'height': (ChartWidth + DataListHeight) +'px'}}>
-            <canvas style={{'position': 'absolute'}} ref={progressCanvas} width={ChartWidth} height={ChartWidth} 
+        <div id={Id} style={{position: 'relative', width: (ChartWidth+'px'), height: ((ChartWidth + DataListHeight) +'px') }}>
+            <canvas style={{position: 'absolute'}} ref={progressCanvas} width={ChartWidth} height={ChartWidth} 
                 className="canvasCenter">
 
             </canvas>    
             {
              IsRendered  &&
-                <div style={{position: 'relative', 'bottom':-ChartWidth+'px', 'height': DataListHeight+'px'}}>
+                <div style={{position: 'relative', bottom:-ChartWidth+'px', height: DataListHeight+'px' }}>
                     <div className="dataContainer">
                         {
-                            items.map((itm, index) => (
+                            RenderItems.map((itm, index) => (
                                 <div className="data" key={index}>
-                                    <div className="indicator" style={{'backgroundColor': itm.BackgroundColor}}>                    
+                                    <div className="indicator" style={{backgroundColor: itm.BackgroundColor}}>                    
                                     </div>
-                                    <span className="title" style="width: 50px;">{itm.Title}</span>
-                                    <span className="title" style="width: 30px;">({itm.Value})</span>
+                                    <span className="title" style={{width: '50px'}}>{itm.Title}</span>
+                                    <span className="title" style={{width: '30px'}}>({itm.Value})</span>
                                 </div>
                             ))
                         }
@@ -222,4 +227,25 @@ export function RDonutChart({
         </div>
         </>
     );
+}
+
+RDonutChart.propTypes = {
+    FontSize: propTypes.number,
+    TextForeColor: propTypes.string,
+    RotateTextToInlineAngle: propTypes.bool,
+    ShowTextOnTopOfChartItem: propTypes.bool,
+    MoveTextUpwardsFromCenterInPx: propTypes.number,
+    ChartWidth: propTypes.number.isRequired,
+    DataListHeight: propTypes.number,
+    ShadowColor: propTypes.string,
+    ShadowBlur: propTypes.number,
+    Opacity: propTypes.string,
+    ChartItems: propTypes.arrayOf(propTypes.shape(
+        {
+            Value: propTypes.number.isRequired,
+            Title: propTypes.string.isRequired,
+            BackgroundColor: propTypes.string.isRequired,
+            ForeColor: propTypes.string.isRequired
+        }
+    )).isRequired
 }

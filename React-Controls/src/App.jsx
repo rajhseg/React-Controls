@@ -38,6 +38,8 @@ function App() {
         <RButton IsDisabled={false} onClick={handleClick}>Submit</RButton>
 
         <RDonutChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={donutItems} Opacity={'0.8'}></RDonutChart>
+
+        <RDonutChart ChartItems={[]}></RDonutChart>
       </>
   )
 }
