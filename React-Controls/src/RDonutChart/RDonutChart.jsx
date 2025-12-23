@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from "react";
 import './RDonutChart.css';
-import propTypes from "prop-types";
+import PropTypes from "prop-types";
 
 export class RDonutChartItem {
   constructor(
@@ -58,6 +58,8 @@ export function RDonutChart({
   
     const Id = useId();
 
+    const HostElementId = useId();
+
     const progressCanvas = useRef();
 
     const LineWidth = () => {
@@ -112,7 +114,7 @@ export function RDonutChart({
 
     const RenderChart = () => {
 
-        setIsRendered(false);
+        setIsRendered((prevState) => false);
 
         if (progressCanvas && context && RenderItems.length > 0) {
 
@@ -191,7 +193,7 @@ export function RDonutChart({
             progressCanvas.current.style.transform = "rotate(-90deg)";
             progressCanvas.current.style.opacity = Opacity;
         
-            setIsRendered(true);
+            setIsRendered((prevState) => true);
     
         }
     }
@@ -199,53 +201,53 @@ export function RDonutChart({
 
     return (
         <>
-        <div className="host">
-        <div id={Id} style={{position: 'relative', width: (ChartWidth+'px'), height: ((ChartWidth + DataListHeight) +'px') }}>
-            <canvas style={{position: 'absolute'}} ref={progressCanvas} width={ChartWidth} height={ChartWidth} 
-                className="canvasCenter">
+        <div id={HostElementId} className="host">
+            <div id={Id} style={{position: 'relative', width: (ChartWidth+'px'), height: ((ChartWidth + DataListHeight) +'px') }}>
+                <canvas style={{position: 'absolute'}} ref={progressCanvas} width={ChartWidth} height={ChartWidth} 
+                    className="canvasCenter">
 
-            </canvas>    
-            {
-             IsRendered  &&
-                <div style={{position: 'relative', bottom:-ChartWidth+'px', height: DataListHeight+'px' }}>
-                    <div className="dataContainer">
-                        {
-                            RenderItems.map((itm, index) => (
-                                <div className="data" key={index}>
-                                    <div className="indicator" style={{backgroundColor: itm.BackgroundColor}}>                    
-                                    </div>
-                                    <span className="title" style={{width: '50px'}}>{itm.Title}</span>
-                                    <span className="title" style={{width: '30px'}}>({itm.Value})</span>
-                                </div>
-                            ))
-                        }
-                        
-                    </div>        
-                </div>
-            }
-        </div>
+                </canvas>    
+                {
+                    IsRendered  &&
+                        <div style={{position: 'relative', bottom:-ChartWidth+'px', height: DataListHeight+'px' }}>
+                            <div className="dataContainer">
+                                {
+                                    RenderItems.map((itm, index) => (
+                                        <div className="data" key={index}>
+                                            <div className="indicator" style={{backgroundColor: itm.BackgroundColor}}>                    
+                                            </div>
+                                            <span className="title" style={{width: '50px'}}>{itm.Title}</span>
+                                            <span className="title" style={{width: '30px'}}>({itm.Value})</span>
+                                        </div>
+                                    ))
+                                }
+                                
+                            </div>        
+                        </div>
+                }
+            </div>
         </div>
         </>
     );
 }
 
 RDonutChart.propTypes = {
-    FontSize: propTypes.number,
-    TextForeColor: propTypes.string,
-    RotateTextToInlineAngle: propTypes.bool,
-    ShowTextOnTopOfChartItem: propTypes.bool,
-    MoveTextUpwardsFromCenterInPx: propTypes.number,
-    ChartWidth: propTypes.number.isRequired,
-    DataListHeight: propTypes.number,
-    ShadowColor: propTypes.string,
-    ShadowBlur: propTypes.number,
-    Opacity: propTypes.string,
-    ChartItems: propTypes.arrayOf(propTypes.shape(
+    FontSize: PropTypes.number,
+    TextForeColor: PropTypes.string,
+    RotateTextToInlineAngle: PropTypes.bool,
+    ShowTextOnTopOfChartItem: PropTypes.bool,
+    MoveTextUpwardsFromCenterInPx: PropTypes.number,
+    ChartWidth: PropTypes.number.isRequired,
+    DataListHeight: PropTypes.number,
+    ShadowColor: PropTypes.string,
+    ShadowBlur: PropTypes.number,
+    Opacity: PropTypes.string,
+    ChartItems: PropTypes.arrayOf(PropTypes.shape(
         {
-            Value: propTypes.number.isRequired,
-            Title: propTypes.string.isRequired,
-            BackgroundColor: propTypes.string.isRequired,
-            ForeColor: propTypes.string.isRequired
+            Value: PropTypes.number.isRequired,
+            Title: PropTypes.string.isRequired,
+            BackgroundColor: PropTypes.string.isRequired,
+            ForeColor: PropTypes.string.isRequired
         }
     )).isRequired
 }
