@@ -11,12 +11,16 @@ function App() {
 
   const [piechartItems, setPieChartItems] = useState([]);
 
+  const [ButtonHeight, setButtonHeight] = useState('32px');
+
   const handleClick = (e) => {
       let pieItem1 = new RDonutChartItem(24,'Batminton', 'darkgreen', 'white');
       setChartItems((prev)=> [...prev, pieItem1]);
 
       let pieItem2 = new RPieChartItem(24, 'Batminton', 'darkgreen', 'white');
       setPieChartItems((prev)=> [...prev, pieItem2]);
+
+      setButtonHeight((prevState) => '40px');
   }
 
   const createDonutItems = () => {
@@ -73,7 +77,7 @@ function App() {
 
   return (
       <>
-        <RButton IsDisabled={false} onClick={handleClick}>Submit</RButton>
+        <RButton ButtonHeight={ButtonHeight} IsDisabled={false} onClick={handleClick}>Submit</RButton>
 
         <RDonutChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={chartItems} Opacity={'0.8'}></RDonutChart>
 

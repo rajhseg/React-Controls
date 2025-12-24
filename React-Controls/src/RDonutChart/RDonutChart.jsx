@@ -1,6 +1,7 @@
 import { useEffect, useId, useRef, useState } from "react";
-import './RDonutChart.css';
 import PropTypes from "prop-types";
+
+import './RDonutChart.css';
 
 export class RDonutChartItem {
   constructor(
@@ -83,7 +84,19 @@ export function RDonutChart({
             
          }
 
-    }, [ChartItems]);
+    }, [
+        ChartItems,
+        FontSize,
+        TextForeColor,
+        RotateTextToInlineAngle,
+        ShowTextOnTopOfChartItem,
+        MoveTextUpwardsFromCenterInPx,
+        ChartWidth,
+        DataListHeight,
+        ShadowColor,
+        ShadowBlur,
+        Opacity    
+    ]);
 
     useEffect(()=>{
 

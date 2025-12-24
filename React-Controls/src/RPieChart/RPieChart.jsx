@@ -1,8 +1,8 @@
 
 import { useId, useRef, useState, useEffect } from 'react'
-import './RPieChart.css'
 import PropTypes from 'prop-types';
 
+import './RPieChart.css'
 
 export class RPieChartItem {
   constructor(
@@ -91,7 +91,20 @@ export function RPieChart({
             
             }
 
-    }, [ChartItems]);
+    }, [
+        ChartItems,
+        FontSize,
+        TextForeColor,
+        LineColorBetweenBars,
+        RotateTextToInlineAngle,
+        ShowTextOnTopOfChartItem,
+        MoveTextUpwardsFromCenterInPx,
+        ChartWidth,
+        DataListHeight,
+        ShadowColor,
+        ShadowBlur,
+        Opacity
+    ]);
 
     
     useEffect(()=>{
