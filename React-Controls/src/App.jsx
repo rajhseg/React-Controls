@@ -1,15 +1,20 @@
 
 import { useEffect, useState } from 'react';
 import './App.css'
+
 import { RButton } from './RButton/RButton'
 import { RDonutChart, RDonutChartItem } from './RDonutChart/RDonutChart';
 import { RPieChart, RPieChartItem } from './RPieChart/RPieChart';
+import { RScatterChart, ScatterChartItem } from './RScatterChart/RScatterChart';
+import { Graph } from './Models/models';
 
 function App() {
 
   const [chartItems, setChartItems] = useState([]);
 
   const [piechartItems, setPieChartItems] = useState([]);
+
+  const [scatterChartItems, setScatterChartItems] = useState([]);
 
   const [ButtonHeight, setButtonHeight] = useState('32px');
 
@@ -23,7 +28,7 @@ function App() {
       setButtonHeight((prevState) => '40px');
   }
 
-  const createDonutItems = () => {
+  const CreateDonutItems = () => {
 
     let pieItem1 = new RDonutChartItem(24,'Cricket', 'grey', 'white');
     let pieItem2 = new RDonutChartItem(35,'Volleyball', 'purple', 'white');
@@ -69,10 +74,34 @@ function App() {
     setPieChartItems((prev)=> [...prev, ...pieItems]);
   }
 
+  const CreateScatterChart = () => {
+    
+    let item1 = new ScatterChartItem("City 1", 'blue', [
+       new Graph(2,8), new Graph(15,35), new Graph(20,65), new Graph(14, 30)
+      ,new Graph(30,63), new Graph(35,78), new Graph(24,53), new Graph(26, 56)
+      ,new Graph(20,42), new Graph(14,31), new Graph(34,75), new Graph(48, 72)
+    ]);
+    
+    let item2 = new ScatterChartItem("City 2", "red", [
+      new Graph(15,40), new Graph(18,55), new Graph(20,58)
+      ,new Graph(45,83), new Graph(28,48), new Graph(44,83), new Graph(16, 26)
+      ,new Graph(60,62), new Graph(64,61), new Graph(54,75), new Graph(68, 72)
+    ]);
+
+    let item3 = new ScatterChartItem("City 3", 'teal', [
+      new Graph(14,35), new Graph(25,45), new Graph(40,85)
+      ,new Graph(40,63), new Graph(55,78), new Graph(54,53), new Graph(66, 56)
+      ,new Graph(20,32), new Graph(14,41), new Graph(34,75), new Graph(68, 72)
+    ]);    
+
+    setScatterChartItems((prevState)=>[item1, item2, item3]);
+
+  }
 
   useEffect(()=>{
-    createDonutItems();
+    CreateDonutItems();
     CreatePieChartItems();
+    CreateScatterChart();
   }, []);
 
   return (
@@ -82,6 +111,9 @@ function App() {
         <RDonutChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={chartItems} Opacity={'0.8'}></RDonutChart>
 
         <RPieChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={piechartItems} Opacity={'0.8'}></RPieChart>
+
+        <RScatterChart XAxisTitle={'Age'} YAxisTitle={'Weight'} ChartItems={scatterChartItems} Width={400} Height={400}></RScatterChart>
+
       </>
   )
 }
