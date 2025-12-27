@@ -1,5 +1,5 @@
 
-import { useId, useRef, useState, useEffect } from 'react'
+import { useId, useRef, useState, useEffect, forwardRef, useImperativeHandle } from 'react'
 import PropTypes from 'prop-types';
 
 import './RPieChart.css'
@@ -41,7 +41,7 @@ export class RRenderPieChartItem extends RPieChartItem {
 }
 
 
-export function RPieChart({
+const RPieChart = forwardRef(function RPieChart({
     FontSize = 10,
     TextForeColor = 'white',
     LineColorBetweenBars = 'white',
@@ -54,7 +54,7 @@ export function RPieChart({
     ShadowBlur = 10,
     Opacity = '1',
     ChartItems = []
-}) {
+}, ref) {
 
     const[IsRendered, setIsRendered] = useState(false);
 
@@ -73,6 +73,15 @@ export function RPieChart({
         _lineWidth = (ChartWidth / 3) - 12;
         return _lineWidth;
     }
+
+    useImperativeHandle(ref, ()=>({
+        Id: Id,
+        HostElementId: HostElementId,
+        IsRendered: IsRendered,
+        Render() {
+            RenderChart();
+        },
+    }));
 
     useEffect(()=>{
         
@@ -264,7 +273,7 @@ export function RPieChart({
             </div>
         </>
     );
-}
+});
 
 
 RPieChart.propTypes = {
@@ -288,3 +297,5 @@ RPieChart.propTypes = {
         }         
     )).isRequired
 }
+
+export default RPieChart;

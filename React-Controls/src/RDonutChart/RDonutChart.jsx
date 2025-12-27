@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from "react";
+import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import './RDonutChart.css';
@@ -36,7 +36,7 @@ class RRenderDonutChartItem extends RDonutChartItem {
   }
 }
 
-export function RDonutChart({
+const RDonutChart =  forwardRef(function RDonutChart({
     FontSize = 10,
     TextForeColor = 'white',
     RotateTextToInlineAngle = false,
@@ -48,7 +48,7 @@ export function RDonutChart({
     ShadowBlur = 10,
     Opacity = '1',
     ChartItems = []
-}){
+}, ref){
 
     const [IsRendered, setIsRendered] = useState(false);
     const [RenderItems, setRenderItems] = useState([]);
@@ -67,6 +67,15 @@ export function RDonutChart({
         _lineWidth = (ChartWidth / 3) - 12;
         return _lineWidth;
     }
+
+    useImperativeHandle(ref, () => ({
+        Id: Id,
+        HostElementId: HostElementId,
+        IsRendered: IsRendered,
+        Render() {
+            RenderChart();
+        },
+    }));
 
     useEffect(()=>{
         
@@ -242,7 +251,7 @@ export function RDonutChart({
         </div>
         </>
     );
-}
+});
 
 RDonutChart.propTypes = {
     FontSize: PropTypes.number,
@@ -264,3 +273,5 @@ RDonutChart.propTypes = {
         }
     )).isRequired
 }
+
+export default RDonutChart;

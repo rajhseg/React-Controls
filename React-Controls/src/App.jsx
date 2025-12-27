@@ -1,11 +1,11 @@
 
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './App.css'
 
-import { RButton } from './RButton/RButton'
-import { RDonutChart, RDonutChartItem } from './RDonutChart/RDonutChart';
-import { RPieChart, RPieChartItem } from './RPieChart/RPieChart';
-import { RScatterChart, ScatterChartItem } from './RScatterChart/RScatterChart';
+import RButton  from './RButton/RButton'
+import RDonutChart , { RDonutChartItem } from './RDonutChart/RDonutChart';
+import RPieChart, { RPieChartItem } from './RPieChart/RPieChart';
+import RScatterChart, { ScatterChartItem } from './RScatterChart/RScatterChart';
 import { Graph } from './Models/models';
 
 function App() {
@@ -18,6 +18,8 @@ function App() {
 
   const [ButtonHeight, setButtonHeight] = useState('32px');
 
+  const bref = useRef();
+
   const handleClick = (e) => {
       let pieItem1 = new RDonutChartItem(24,'Batminton', 'darkgreen', 'white');
       setChartItems((prev)=> [...prev, pieItem1]);
@@ -26,6 +28,8 @@ function App() {
       setPieChartItems((prev)=> [...prev, pieItem2]);
 
       setButtonHeight((prevState) => '40px');
+
+      console.log(bref.current.Id);
   }
 
   const CreateDonutItems = () => {
@@ -106,7 +110,7 @@ function App() {
 
   return (
       <>
-        <RButton ButtonHeight={ButtonHeight} IsDisabled={false} onClick={handleClick}>Submit</RButton>
+        <RButton ref={bref} ButtonHeight={ButtonHeight} IsDisabled={false} onClick={handleClick}>Submit</RButton>
 
         <RDonutChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={chartItems} Opacity={'0.8'}></RDonutChart>
 

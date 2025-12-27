@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { Graph, PopupChartItem } from '../Models/models.js'
 import './RScatterChart.css';
-import { useEffect, useId, useRef, useState } from 'react';
+import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
 
 
 export class ScatterChartItem {
@@ -13,7 +13,7 @@ export class ScatterChartItem {
 }
 
 
-export function RScatterChart({
+const RScatterChart = forwardRef(function RScatterChart({
     PlotItemSize = 3,
     TextColor = 'gray',
     XAxisTitle = '',
@@ -29,7 +29,7 @@ export function RScatterChart({
     PopupForeColor = undefined,
     PopupBackgroundOpacity = 1,
     ChartItems = []
-}) {
+}, ref) {
 
     let context = null;
     let PopupItems = [];
@@ -40,6 +40,15 @@ export function RScatterChart({
     const [RenderItems, setRenderItems] = useState([]);
 
     const bar = useRef();
+
+    useImperativeHandle(ref, ()=> ({
+      Id:Id,
+      HostElementId: HostElementId,
+      IsRendered: IsRendered,
+      Render() {
+        RenderScatterChart();
+      },
+    }));
 
     useEffect(() => {
         
@@ -529,7 +538,7 @@ export function RScatterChart({
          </div>
         </>
     );
-}
+});
 
 RScatterChart.propTypes = {
     PlotItemSize: PropTypes.number,
@@ -559,3 +568,5 @@ RScatterChart.propTypes = {
         }
     ))
 }
+
+export default RScatterChart;

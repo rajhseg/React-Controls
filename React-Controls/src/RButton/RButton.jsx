@@ -1,9 +1,9 @@
 import propTypes from "prop-types";
-import { useId } from "react";
+import { forwardRef, useId, useImperativeHandle, useRef } from "react";
 
 import './RButton.css';
 
-export function RButton({
+const RButton = forwardRef(function RButton({
     IsDisabled,
     onClick,
     ButtonType = "button",
@@ -12,13 +12,22 @@ export function RButton({
     ForeColor = "whitesmoke",
     BackgroundColor = "blue",
     children
-}) {
+}, ref) {
 
+    let bRef = useRef();
     let compId = useId();
+
+    useImperativeHandle(ref, () => ({
+        Id: compId,
+        HostElementId: '',
+        Click(){  
+            bRef?.current?.click();
+        }
+    }));
 
     return (
         <>
-        <button id={compId} className="btn" disabled={IsDisabled}
+        <button ref={bRef} id={compId} className="btn" disabled={IsDisabled}
                 onClick={(e) => onClick(e)} type={ButtonType}
                 style={{'height': ButtonHeight, 
                         'width': ButtonWidth,
@@ -29,7 +38,7 @@ export function RButton({
         </button >
         </>
     );
-}
+});
 
 RButton.propTypes = {
     IsDisabled: propTypes.bool,
@@ -41,3 +50,5 @@ RButton.propTypes = {
     onClick: propTypes.func.isRequired,
     children: propTypes.node
 }
+
+export default RButton;
