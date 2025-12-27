@@ -3,7 +3,7 @@ This repo is under development. This repo is consists of react UI components lik
 
 RButton
 --------------
-<img width="114" height="46" alt="image" src="https://github.com/user-attachments/assets/d372f51d-17cc-457a-9e72-2c063690fb84" />
+<img width="110" height="58" alt="image" src="https://github.com/user-attachments/assets/a39ae1ca-a904-49b2-a604-56ac9c62408d" />
 
 <br />
 
