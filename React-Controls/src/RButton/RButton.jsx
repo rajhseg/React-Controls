@@ -27,6 +27,7 @@ const RButton = forwardRef(function RButton({
 
     return (
         <>
+        <div className="host">
         <button ref={bRef} id={compId} className="btn" disabled={IsDisabled}
                 onClick={(e) => onClick(e)} type={ButtonType}
                 style={{'height': ButtonHeight, 
@@ -36,6 +37,7 @@ const RButton = forwardRef(function RButton({
                         'border': '1px solid '+BackgroundColor}}>
             {children}
         </button >
+        </div>
         </>
     );
 });
