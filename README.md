@@ -7,6 +7,12 @@ RButton
 
 <br />
 
+RTextbox
+----------------
+<img width="561" height="90" alt="image" src="https://github.com/user-attachments/assets/66fb75ac-6320-4622-9b21-64d9a1e55a96" />
+
+<br />
+
 RDonutChart
 ---------------
 <img width="333" height="401" alt="image" src="https://github.com/user-attachments/assets/0d19b9f4-6ea7-4b15-b5e2-b068d980db43" />
