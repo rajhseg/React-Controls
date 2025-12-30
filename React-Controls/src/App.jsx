@@ -7,6 +7,7 @@ import RDonutChart , { RDonutChartItem } from './RDonutChart/RDonutChart';
 import RPieChart, { RPieChartItem } from './RPieChart/RPieChart';
 import RScatterChart, { ScatterChartItem } from './RScatterChart/RScatterChart';
 import { Graph } from './Models/models';
+import RTextbox from './RTextbox/RTextbox';
 
 function App() {
 
@@ -20,6 +21,8 @@ function App() {
 
   const bref = useRef();
 
+  const [tValue, setTValue] = useState("");
+
   const handleClick = (e) => {
       let pieItem1 = new RDonutChartItem(24,'Batminton', 'darkgreen', 'white');
       setChartItems((prev)=> [...prev, pieItem1]);
@@ -28,6 +31,8 @@ function App() {
       setPieChartItems((prev)=> [...prev, pieItem2]);
 
       setButtonHeight((prevState) => '40px');
+
+      setTValue((prevState)=> "Hello World");
 
       console.log(bref.current.Id);
   }
@@ -102,6 +107,10 @@ function App() {
 
   }
 
+  const UpdateValue = (e) => {
+    setTValue((prevState)=> e);
+  }
+
   useEffect(()=>{
     CreateDonutItems();
     CreatePieChartItems();
@@ -110,8 +119,17 @@ function App() {
 
   return (
       <>
-        <RButton ref={bref} ButtonHeight={ButtonHeight} IsDisabled={false} onClick={handleClick}>Submit</RButton>
+        <RTextbox TextboxValue={tValue} ValueChanged={UpdateValue}></RTextbox>
+        &nbsp;
 
+        <RTextbox TextboxValue={tValue} ValueChanged={UpdateValue}></RTextbox>
+        &nbsp;
+        
+        <RButton ref={bref} ButtonHeight={ButtonHeight} IsDisabled={false} onClick={handleClick}>Submit</RButton>
+        
+        <br />
+        <br />
+        
         <RDonutChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={chartItems} Opacity={'0.8'}></RDonutChart>
 
         <RPieChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={piechartItems} Opacity={'0.8'}></RPieChart>
