@@ -17,7 +17,7 @@ function App() {
 
   const [scatterChartItems, setScatterChartItems] = useState([]);
 
-  const [ButtonHeight, setButtonHeight] = useState('32px');
+  const [ButtonHeight, setButtonHeight] = useState('40px');
 
   const bref = useRef();
 
