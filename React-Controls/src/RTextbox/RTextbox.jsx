@@ -50,6 +50,7 @@ const RTextbox = forwardRef(function RTextbox({
 
     let HostElementId = useId();
     let Id = useId();
+    let InputId = useId();
 
     const [tValue, setTValue] = useState("");
     const inpRef = useRef();
@@ -81,7 +82,7 @@ const RTextbox = forwardRef(function RTextbox({
                     {LabelText}
                 </span>
                 
-                <input ref={inpRef}  readOnly={ReadOnly}  
+                <input ref={inpRef}  readOnly={ReadOnly} id={InputId}
                         disabled={Disabled}
                         type={IsPasswordBox ? 'password' : 'text'}
                         value={tValue} className="txtbox" 
