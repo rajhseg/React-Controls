@@ -125,7 +125,7 @@ function App() {
         <RTextbox TextboxValue={tValue} ValueChanged={UpdateValue}></RTextbox>
         &nbsp;
         
-        <RButton ref={bref} ButtonHeight={ButtonHeight} IsDisabled={false} onClick={handleClick}>Submit</RButton>
+        <RButton Style={{marginTop:'3px'}} ref={bref} ButtonHeight={ButtonHeight} IsDisabled={false} onClick={handleClick}>Submit</RButton>
         
         <br />
         <br />

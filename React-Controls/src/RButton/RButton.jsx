@@ -1,7 +1,7 @@
 import propTypes from "prop-types";
 import { forwardRef, useId, useImperativeHandle, useRef } from "react";
 
-import './RButton.css';
+import styles from './RButton.module.css';
 
 const RButton = forwardRef(function RButton({
     IsDisabled,
@@ -11,6 +11,7 @@ const RButton = forwardRef(function RButton({
     ButtonWidth = "100px",
     ForeColor = "whitesmoke",
     BackgroundColor = "blue",
+    Style,
     children
 }, ref) {
 
@@ -27,8 +28,8 @@ const RButton = forwardRef(function RButton({
 
     return (
         <>
-        <div className="host">
-        <button ref={bRef} id={compId} className="btn" disabled={IsDisabled}
+        <div className={styles.host} style={Style}>
+        <button ref={bRef} id={compId} className={styles.btn} disabled={IsDisabled}
                 onClick={(e) => onClick(e)} type={ButtonType}
                 style={{'height': ButtonHeight, 
                         'width': ButtonWidth,
@@ -43,6 +44,7 @@ const RButton = forwardRef(function RButton({
 });
 
 RButton.propTypes = {
+    Style: propTypes.string,
     IsDisabled: propTypes.bool,
     ButtonType: propTypes.string,
     ButtonHeight: propTypes.string,

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Graph, PopupChartItem } from '../Models/models.js'
-import './RScatterChart.css';
+import styles from './RScatterChart.module.css';
 import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
 
 
@@ -510,7 +510,7 @@ const RScatterChart = forwardRef(function RScatterChart({
 
     return (
         <>
-        <div>
+        <div id={HostElementId} className={styles.host}>
             <div id={Id}>
                 <canvas ref={bar} width={Width} height={Height}>
 
@@ -519,13 +519,13 @@ const RScatterChart = forwardRef(function RScatterChart({
                     IsRendered && 
 
                     <div style={{position: 'relative', alignContent: 'center', bottom:  '10px',  height: DataListHeight+'px' }}>
-                    <div className="dataContainer" style={{'width': (Width - MarginX) +'px'}}>
+                    <div className={styles.dataContainer} style={{'width': (Width - MarginX) +'px'}}>
                         {
                             RenderItems.map((itm, index) => (
-                                <div key={index} className="data">
-                                    <div className="indicator" style={{ backgroundColor: itm.ItemColor}}>                    
+                                <div key={index} className={styles.data}>
+                                    <div className={styles.indicator} style={{ backgroundColor: itm.ItemColor}}>                    
                                     </div>
-                                    <span className="title" style={{width: '50px'}}>{itm.ItemName}</span>                
+                                    <span className={styles.title} style={{width: 'fit-content'}}>{itm.ItemName}</span>                
                                 </div>
                             ))
                         }

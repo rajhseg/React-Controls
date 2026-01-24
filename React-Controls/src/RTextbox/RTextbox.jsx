@@ -2,7 +2,7 @@ import React, { ChangeEvent, forwardRef, useEffect, useId, useImperativeHandle, 
 
 import PropTypes from 'prop-types'
 
-import './RTextbox.css';
+import styles from './RTextbox.module.css';
 
 const RTextbox = forwardRef(function RTextbox({
     Style,
@@ -16,6 +16,7 @@ const RTextbox = forwardRef(function RTextbox({
     TextBoxHeight = "30px",
     Font = "",
     EnableMarginTextBottom = true,
+    EnableBoxShadow = false,
     MarginTextBottom = "10px",
     IsPasswordBox = false,
     TextboxValue = '',
@@ -75,24 +76,25 @@ const RTextbox = forwardRef(function RTextbox({
 
     return (
         <>
-        <div id={HostElementId} className="host" style={Style}>
-            <div id={Id} className="txtroot">
+        <div id={HostElementId} className={styles.host} style={Style}>
+            <div id={Id} className={styles.txtroot}>
 
-                <span className="span" style={{ width: TextBoxWidth, color: LabelForeColor}}> 
+                <span className={styles.span} style={{ width: TextBoxWidth, color: LabelForeColor}}> 
                     {LabelText}
                 </span>
                 
                 <input ref={inpRef}  readOnly={ReadOnly} id={InputId}
                         disabled={Disabled}
                         type={IsPasswordBox ? 'password' : 'text'}
-                        value={tValue} className="txtbox" 
+                        value={tValue} className={ `${styles.txtbox} ${EnableBoxShadow ? styles.dummy : styles.brdr } `}
                 
                         style={{ height: TextBoxHeight, 
                                 width: TextBoxWidth,
                                 borderBottomColor: BottomLineColor,       
                                 marginBottom: EnableMarginTextBottom ? MarginTextBottom : '', 
                                 font: Font, 
-                                pointerEvents:(Disabled || ReadOnly) ? 'none': undefined
+                                pointerEvents:(Disabled || ReadOnly) ? 'none': undefined,
+                                boxShadow: EnableBoxShadow ? 'rgba(0, 0, 0, 0.24) 0px 3px 8px' : 'none'
                             }}
 
                     onInput={(e)=> Input(e)} 
@@ -132,6 +134,7 @@ const RTextbox = forwardRef(function RTextbox({
     BottomLineColor: PropTypes.string,
     ReadOnly: PropTypes.bool,
     Disabled: PropTypes.bool,
+    EnableBoxShadow: PropTypes.bool,
     TextBoxWidth: PropTypes.string,
     TextBoxHeight: PropTypes.string,
     Font: PropTypes.string,
