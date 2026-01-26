@@ -14,6 +14,7 @@ export class ScatterChartItem {
 
 
 const RScatterChart = forwardRef(function RScatterChart({
+    Style,
     PlotItemSize = 3,
     TextColor = 'gray',
     XAxisTitle = '',
@@ -510,7 +511,7 @@ const RScatterChart = forwardRef(function RScatterChart({
 
     return (
         <>
-        <div id={HostElementId} className={styles.host}>
+         <div id={HostElementId} className={styles.host} style={Style}>
             <div id={Id}>
                 <canvas ref={bar} width={Width} height={Height}>
 

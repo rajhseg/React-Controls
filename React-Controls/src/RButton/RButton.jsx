@@ -11,6 +11,7 @@ const RButton = forwardRef(function RButton({
     ButtonWidth = "100px",
     ForeColor = "whitesmoke",
     BackgroundColor = "blue",
+    EnableBackDrop = false,
     Style,
     children
 }, ref) {
@@ -35,6 +36,7 @@ const RButton = forwardRef(function RButton({
                         'width': ButtonWidth,
                         'color':ForeColor,
                         'backgroundColor':BackgroundColor, 
+                        'boxShadow': EnableBackDrop ? " rgba(0, 0, 0, 0.24) 0px 3px 8px" : "none",
                         'border': '1px solid '+BackgroundColor}}>
             {children}
         </button >
@@ -52,6 +54,7 @@ RButton.propTypes = {
     ForeColor: propTypes.string,
     BackgroundColor: propTypes.string,
     onClick: propTypes.func.isRequired,
+    EnableBackDrop: propTypes.bool,
     children: propTypes.node
 }
 

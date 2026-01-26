@@ -8,6 +8,8 @@ import RPieChart, { RPieChartItem } from './RPieChart/RPieChart';
 import RScatterChart, { ScatterChartItem } from './RScatterChart/RScatterChart';
 import { Graph } from './Models/models';
 import RTextbox from './RTextbox/RTextbox';
+import RLineChart, { RLineChartItem } from './RLineChart/RLineChart';
+import { useMemo } from 'react';
 
 function App() {
 
@@ -23,6 +25,13 @@ function App() {
 
   const [tValue, setTValue] = useState("");
 
+  const [lineChartItem, setLineChartItems] = useState([]);
+  const [lineChartXAxisNames, setLineChartXAxisNames] = useState([]);
+
+  const memoChartItems = useMemo(() => lineChartItem, [lineChartItem]);
+  const memoXAxisNames = useMemo(() => lineChartXAxisNames, [lineChartXAxisNames]);
+
+
   const handleClick = (e) => {
       let pieItem1 = new RDonutChartItem(24,'Batminton', 'darkgreen', 'white');
       setChartItems((prev)=> [...prev, pieItem1]);
@@ -35,6 +44,20 @@ function App() {
       setTValue((prevState)=> "Hello World");
 
       console.log(bref.current.Id);
+  }
+
+
+ const CreateLineChartItems = () => {
+
+    let item1 = new RLineChartItem("Soap", "teal", [25, 45, 12, 35, 18, 17, 40]);
+    let item2 = new RLineChartItem("ToothPowder", "darkblue", [35, 75, 18, 45, 16, 27, 60]);
+    let item3 = new RLineChartItem("Juice", "orangered", [15, 26, 38, 25, 46, 37, 70]);
+
+    const lineChartXAxisNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const lineChartItems = [item1, item2, item3];
+
+    setLineChartXAxisNames(() => [...lineChartXAxisNames]);
+    setLineChartItems(() => [...lineChartItems]);
   }
 
   const CreateDonutItems = () => {
@@ -115,6 +138,7 @@ function App() {
     CreateDonutItems();
     CreatePieChartItems();
     CreateScatterChart();
+    CreateLineChartItems();
   }, []);
 
   return (
@@ -135,6 +159,8 @@ function App() {
         <RPieChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={piechartItems} Opacity={'0.8'}></RPieChart>
 
         <RScatterChart XAxisTitle={'Age'} YAxisTitle={'Weight'} ChartItems={scatterChartItems} Width={400} Height={400}></RScatterChart>
+
+          <RLineChart XAxisTitle={'Day'} YAxisTitle={'Price'} ChartItems={memoChartItems} XAxisNames={lineChartXAxisNames} Width={500} Height={400}></RLineChart>
 
       </>
   )
