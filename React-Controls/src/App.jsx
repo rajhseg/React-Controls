@@ -9,6 +9,7 @@ import RScatterChart, { ScatterChartItem } from './RScatterChart/RScatterChart';
 import { Graph } from './Models/models';
 import RTextbox from './RTextbox/RTextbox';
 import { useMemo } from 'react';
+import RLineChart, { RLineChartItem } from './RLineChart/RLineChart';
 
 function App() {
 
@@ -17,6 +18,10 @@ function App() {
   const [piechartItems, setPieChartItems] = useState([]);
 
   const [scatterChartItems, setScatterChartItems] = useState([]);
+
+  const [lineChartItems, setLineChartItems] = useState([]);
+
+  const [lineChartXAxisNames, setLineChartXAxisNames] = useState([]);
 
   const [ButtonHeight, setButtonHeight] = useState('40px');
 
@@ -36,6 +41,16 @@ function App() {
       setTValue((prevState)=> "Hello World");
 
       console.log(bref.current.Id);
+  }
+
+  const CreateLineChartItems = () => {
+
+    let item1 = new RLineChartItem("Soap", "teal", [25, 45, 12, 35, 18, 17, 40]);
+    let item2 = new RLineChartItem("ToothPowder", "darkblue", [35, 75, 18, 45, 16, 27, 60]);
+    let item3 = new RLineChartItem("Juice", "orangered", [15, 26, 38, 25, 46, 37, 70]);
+
+    setLineChartItems((prev) => [item1, item2, item3]);
+    setLineChartXAxisNames((prev) =>  ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]);
   }
 
   const CreateDonutItems = () => {
@@ -116,6 +131,7 @@ function App() {
     CreateDonutItems();
     CreatePieChartItems();
     CreateScatterChart();
+    CreateLineChartItems();
   }, []);
 
   return (
@@ -136,6 +152,8 @@ function App() {
         <RPieChart DataListHeight={100} ChartWidth={300} ShadowColor={'blue'} ChartItems={piechartItems} Opacity={'0.8'}></RPieChart>
 
         <RScatterChart XAxisTitle={'Age'} YAxisTitle={'Weight'} ChartItems={scatterChartItems} Width={400} Height={400}></RScatterChart>
+
+        <RLineChart XAxisTitle={'Day'} YAxisTitle={'Price'} ChartItems={lineChartItems} Width={400} Height={400} XAxisItemNames={lineChartXAxisNames}></RLineChart>
 
       </>
   )
