@@ -54,6 +54,7 @@ const RDonutChart =  forwardRef(function RDonutChart({
     const [RenderItems, setRenderItems] = useState([]);
     const [titleLength, setTitleLength]= useState("");
     const [valueLength, setValueLength] = useState("");
+    const [isReady, setIsReady] = useState(false);
 
     let _lineWidth = 0;
     
@@ -80,6 +81,39 @@ const RDonutChart =  forwardRef(function RDonutChart({
     }));
 
     useEffect(()=>{
+
+        let initReady = [
+                            FontSize,
+                            TextForeColor,
+                            RotateTextToInlineAngle,
+                            ShowTextOnTopOfChartItem,
+                            MoveTextUpwardsFromCenterInPx,
+                            ChartWidth,
+                            DataListHeight,
+                            ShadowColor,
+                            ShadowBlur,
+                            Opacity
+                        ].every((item) => item !== undefined && item !== null);
+
+
+        setIsReady((prevState) => initReady);
+
+    }, [ChartItems,
+        FontSize,
+        TextForeColor,
+        RotateTextToInlineAngle,
+        ShowTextOnTopOfChartItem,
+        MoveTextUpwardsFromCenterInPx,
+        ChartWidth,
+        DataListHeight,
+        ShadowColor,
+        ShadowBlur,
+        Opacity]);
+
+    useEffect(()=>{
+        
+        if(!isReady)
+            return;
         
         setRenderItems((prevState) => []);
         let _itms = [];
@@ -95,18 +129,9 @@ const RDonutChart =  forwardRef(function RDonutChart({
             
          }
 
-    }, [
-        ChartItems,
-        FontSize,
-        TextForeColor,
-        RotateTextToInlineAngle,
-        ShowTextOnTopOfChartItem,
-        MoveTextUpwardsFromCenterInPx,
-        ChartWidth,
-        DataListHeight,
-        ShadowColor,
-        ShadowBlur,
-        Opacity    
+    }, 
+    [
+        isReady, ChartItems    
     ]);
 
     useEffect(()=>{

@@ -62,6 +62,8 @@ const RPieChart = forwardRef(function RPieChart({
 
     const [titleLength, setTitleLength]= useState("");
     const [valueLength, setValueLength] = useState("");
+    
+    const [isReady, setIsReady] = useState(false);
 
     const progressCanvas = useRef();
 
@@ -87,7 +89,42 @@ const RPieChart = forwardRef(function RPieChart({
     }));
 
     useEffect(()=>{
+        let initReady = [
+                            FontSize,
+                            TextForeColor,
+                            LineColorBetweenBars,
+                            RotateTextToInlineAngle,
+                            ShowTextOnTopOfChartItem,
+                            MoveTextUpwardsFromCenterInPx,
+                            ChartWidth,
+                            DataListHeight,
+                            ShadowColor,
+                            ShadowBlur,
+                            Opacity
+                        ].every((x)=> x!= null && x!= undefined);
+
+        setIsReady((prevState)=> initReady);
+    },
+    [
+        ChartItems,
+        FontSize,
+        TextForeColor,
+        LineColorBetweenBars,
+        RotateTextToInlineAngle,
+        ShowTextOnTopOfChartItem,
+        MoveTextUpwardsFromCenterInPx,
+        ChartWidth,
+        DataListHeight,
+        ShadowColor,
+        ShadowBlur,
+        Opacity
+    ]);
+
+    useEffect(()=>{
         
+        if(!isReady)
+            return;
+
         setRenderItems((prevState) => []);
 
         let _itms = [];
@@ -105,17 +142,7 @@ const RPieChart = forwardRef(function RPieChart({
 
     }, [
         ChartItems,
-        FontSize,
-        TextForeColor,
-        LineColorBetweenBars,
-        RotateTextToInlineAngle,
-        ShowTextOnTopOfChartItem,
-        MoveTextUpwardsFromCenterInPx,
-        ChartWidth,
-        DataListHeight,
-        ShadowColor,
-        ShadowBlur,
-        Opacity
+        isReady
     ]);
 
     

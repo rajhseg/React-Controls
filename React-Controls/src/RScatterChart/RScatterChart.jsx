@@ -26,8 +26,8 @@ const RScatterChart = forwardRef(function RScatterChart({
     MarginX = 50,
     MarginY = 50,
     DataListHeight = 50,
-    PopupBackColor = 'lightgray',
-    PopupForeColor = undefined,
+    PopupBackColor = 'black',
+    PopupForeColor = 'white',
     PopupBackgroundOpacity = 1,
     ChartItems = []
 }, ref) {
@@ -39,6 +39,8 @@ const RScatterChart = forwardRef(function RScatterChart({
 
     const [IsRendered, setIsRendered] = useState(false);
     const [RenderItems, setRenderItems] = useState([]);
+
+    const [isReady, setIsReady] = useState(false);
 
     const bar = useRef();
 
@@ -52,20 +54,27 @@ const RScatterChart = forwardRef(function RScatterChart({
     }));
 
     useEffect(() => {
-        
-        setRenderItems((prevState) => []);
+      let initReady = [
+                        PlotItemSize,
+                        TextColor,
+                        XAxisTitle,
+                        YAxisTitle,
+                        NoOfSplitInXAxis,
+                        NoOfSplitInYAxis,
+                        Width,
+                        Height,
+                        MarginX,
+                        MarginY,
+                        DataListHeight,
+                        PopupBackColor,
+                        PopupForeColor,
+                        PopupBackgroundOpacity
+                      ].every((x)=> x!=undefined && x!= null);
+                    
+      setIsReady((prevState)=> initReady);
 
-        let itms = [];
-
-        for(let i = 0; i < ChartItems.length; i++){
-            let itm = ChartItems[i];
-            itms.push(itm);
-        }
-        
-        setRenderItems((prevState) => [...prevState, ...itms])
-
-    }, [ 
-        PlotItemSize,
+    }, [
+      PlotItemSize,
         TextColor,
         XAxisTitle,
         YAxisTitle,
@@ -79,7 +88,27 @@ const RScatterChart = forwardRef(function RScatterChart({
         PopupBackColor,
         PopupForeColor,
         PopupBackgroundOpacity,
-        ChartItems  
+        ChartItems
+    ]);
+
+    useEffect(() => {
+        
+        if(!isReady)
+          return;
+        
+        setRenderItems((prevState) => []);
+
+        let itms = [];
+
+        for(let i = 0; i < ChartItems.length; i++){
+            let itm = ChartItems[i];
+            itms.push(itm);
+        }
+        
+        setRenderItems((prevState) => [...prevState, ...itms])
+
+    }, [ 
+        ChartItems, isReady
     ]);
 
     useEffect(()=>{
